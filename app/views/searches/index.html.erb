@@ -1,0 +1,26 @@
+<h1> Github Repository Finder</h1>
+
+<%= form_with url: searches_path, local: true, method: :get do %>
+  <div>
+    <%= text_field_tag :search, params[:search], :class => 'form-control', :placeholder => 'Repository name'%>
+    <%= submit_tag "search", :class => "btn btn-info"%>
+  </div>
+<% end %>
+
+<table>
+  <tr>
+    <th>Repository Name</th>
+    <th>Owner</th>
+    <th>Link</th>
+  </tr>
+  <% @response.each_with_index do |item, key| %>
+    <tr>
+      <td><%= "#{key+1} | " %><%= item['name'] %></td>
+      <td><%= item['owner']['login'] %></td>
+      <td><%= link_to item['html_url'], item['html_url'] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @response if @response.any? %>
+
